@@ -15,7 +15,7 @@ kernel.h和kernel.cu已上传，是我自己写的一个图像预处理的样例
 
 在kernel中，通过blockIdx、blockDim、threadIdx就可以完成寻址，例如对于二维grid和block：
 
-&nbsp;&nbsp;&nbsp;int y = blockIdx.y * blockDim.y + threadIdx.y;
+&nbsp;&nbsp;&nbsp;int y = blockIdx.y * blockDim.y + threadIdx.y;  
 &nbsp;&nbsp;&nbsp;int x = blockIdx.x * blockDim.x + threadIdx.x;
 
 ### wrapper
@@ -36,9 +36,9 @@ grid、block都是cuda的一种数据结构“dim3”，在我的实验中，blo
 调用kernel后，记得把显存中的数据通过cudaMemcpy拷贝回内存再返回，然后用cudaFree释放显存空间。
 
 ## 运行效率
-### 优化cudaMemcpy速度
 实际使用时候发现并没有比CPU直接处理快多少。。甚至反而fps有所降低，经过分析发现是cudaMemcpy耗费了太多时间（一次cpy大约是实际gpu运算的10倍）
 
+### 优化cudaMemcpy速度
 查阅资料后，了解到可以通过申请pinned内存来提高内存到显存的copy效率：
 
 &nbsp;&nbsp;&nbsp;cudaHostAlloc((void**)&data, batchsize*size*sizeof(float), cudaHostAllocDefault);
