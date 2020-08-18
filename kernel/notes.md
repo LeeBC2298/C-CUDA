@@ -41,7 +41,7 @@ grid、block都是cuda的一种数据结构“dim3”，在我的实验中，blo
 ### 优化cudaMemcpy速度
 查阅资料后，了解到可以通过申请pinned内存来提高内存到显存的copy效率：
 
-&nbsp;&nbsp;&nbsp;cudaHostAlloc((void**)&data, batchsize*size*sizeof(float), cudaHostAllocDefault);
+&nbsp;&nbsp;&nbsp;cudaHostAlloc((void**)&data, batchsize\*size\*sizeof(float), cudaHostAllocDefault);
 
 注意这里申请的是一块内存而非显存，也就是所它相当于C++的malloc函数而非CUDA的cudaMalloc，它与malloc的区别是，这样申请的内存是不会被置换的，从而可以省去很多检查，加快cudaMemcpu操作
 
