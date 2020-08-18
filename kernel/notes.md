@@ -15,21 +15,21 @@ kernel.h和kernel.cu已上传，供参考
 
 在kernel中，通过blockIdx、blockDim、threadIdx就可以完成寻址，例如对于二维grid和block：
 
-&nbsp;int y = blockIdx.y * blockDim.y + threadIdx.y;
-&nbsp;int x = blockIdx.x * blockDim.x + threadIdx.x;
+&nbsp;&nbsp;&nbsp;int y = blockIdx.y * blockDim.y + threadIdx.y;
+&nbsp;&nbsp;&nbsp;int x = blockIdx.x * blockDim.x + threadIdx.x;
 
 ### wrapper
 wrapper函数可以根据自己的需要设计参数和返回值，比如做单张图片处理那就输入一个CV::Mat
 
 在调用kernel之前，需要先把CPU内存中的数据搬到显存里去，所以需要：
 
-&nbsp;unsigned char* src_dev声明一个gpu type的源数据指针  
-&nbsp;cudaMalloc为src_dev开辟一块显存空间  
-&nbsp;cudaMemcpy把内存数据copy到显存中
+&nbsp;&nbsp;&nbsp;unsigned char* src_dev声明一个gpu type的源数据指针  
+&nbsp;&nbsp;&nbsp;cudaMalloc为src_dev开辟一块显存空间  
+&nbsp;&nbsp;&nbsp;cudaMemcpy把内存数据copy到显存中
 
 然后就可以指定grid和block来调用kernel函数了：
 
-&nbsp;kernel<<<grid, block>>>()
+&nbsp;&nbsp;&nbsp;kernel<<<grid, block>>>()
 
 grid、block都是cuda的一种数据结构“dim3”，在我的实验中，block表示的是一个块中有多少个线程，grid则表示一共有多少个block。在实验中，block取（16， 16， 1）的效果是最好的，也就是一个block中有256个线程。
 
